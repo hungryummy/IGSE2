@@ -25,7 +25,7 @@
             </span>
     <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right"  href="javascript:location.replace(location.href);" title="Refresh"><i class="layui-icon" style="line-height:30px">ဂ</i></a>
 </div>
-<div class="x-body">
+<div class="x-body" id="app">
     <form class="layui-form x-center" action="" style="width:800px">
         <div class="layui-form-pane" style="margin-top: 15px;">
             <div class="layui-form-item">
@@ -111,6 +111,7 @@
             search() {
                 axios.post("/rate/search", this.searchMap).then((res) => {
                     app.rateList = res.data.data;
+                    console.log(app.rateList)
                     app.total = res.data.total;
                 });
             }
