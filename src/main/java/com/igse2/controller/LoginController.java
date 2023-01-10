@@ -30,7 +30,6 @@ public class LoginController {
 
         //session方式
         HttpSession session = request.getSession();
-        session.setAttribute("email", email);    //session中存的值
         Customer user = customerService.getUserByEmail(email);
         // 密码加密
         String sha256Password = HashGenerator.getSHA256(password);
@@ -38,6 +37,7 @@ public class LoginController {
             System.out.println("用户名为空！！");
         }
         else if (sha256Password.equals(user.getPasswordHash())) {
+            session.setAttribute("email", email);    //session中存的值
             session.setMaxInactiveInterval(1800);  // 设置session失效时间为30分钟
             return new Result(true,200,"登录成功");
         } else {
