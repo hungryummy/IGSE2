@@ -69,6 +69,52 @@
             </div>
         </div>
     </div>
+    <script>
+        layui.use(['form'],
+            function() {
+                $ = layui.jquery;
+                var form = layui.form(),
+                    layer = layui.layer;
+
+                //监听提交
+                form.on('submit(login)',
+                    function(data) {
+                        //alert(1);
+                        // console.log(data);
+
+                        // data.field.username
+                        // data.field.password
+                        // 提交表单
+                        $.ajax({
+                            type: "POST",
+                            dataType: "json",
+                            url: "/user/login" ,
+                            data: data.field, //提交的数据
+                            success: function (result) {
+                                console.log(result);       //打印服务端返回的数据(调试用)
+                                if (result.resultCode == 200) {
+                                    alert("提交成功");
+                                }
+                                ;
+                            },
+                            error : function() {
+                                alert("提交失败");
+                            }
+                        });
+
+                        layer.alert(JSON.stringify(data.field), {
+                            title: '点击确定进入后台'
+                        },function  () {
+                            location.href = "./index.html";
+                        })
+                        return false;
+
+
+                    });
+
+            });
+
+    </script>
 
 </body>
 
