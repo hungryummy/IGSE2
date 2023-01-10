@@ -1,0 +1,43 @@
+	// 1. Edge case: Dead player can not use anything.
+	if(this -> getHealth() <=0 ){
+		throw std::invalid_argument("dead player use wrong exception");
+	}
+	// 2. Iterate {@variable inventory_}
+	list<unique_ptr<Object>>::iterator itb = inventory_->begin();
+
+	string objName = "";
+	string objType = "";
+	for(list<unique_ptr<Object>>::iterator it = itb; it != inventory_ -> end(); it++){
+		objName = it -> get() -> getName();
+		objType = it -> get() -> getType();
+
+		// 3. Use food.
+		if((name.compare(objName)==0) && (objType.compare("Food")==0)){
+
+			int afterStamina = this -> getStamina() + it -> get() -> getValue();
+
+			if(afterStamina >= 100){
+				this -> stamina_ = 100;
+			}else{
+				this -> stamina_ = afterStamina;
+			}
+
+			// 3.1 Consume the food
+			this -> inventory_ -> erase(it--);
+			return true;
+		}
+
+		// 4. Use weapon.
+		if((objName.compare(name)==0) && (objType.compare("Weapon")==0)){
+			this -> setWeaponInUse(it -> get());
+			return true;
+		}
+
+		// 5. Use armour
+		if((objName.compare(name)==0) && (objType.compare("Armour")==0)){
+			setArmourInUse(*(it -> get()));
+			return true;
+		}
+	}
+	return false;
+}
