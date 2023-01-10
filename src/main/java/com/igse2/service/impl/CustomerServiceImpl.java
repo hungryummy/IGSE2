@@ -24,4 +24,12 @@ public class CustomerServiceImpl implements CustomerService {
         return customers;
     }
 
+    @Override
+    public Customer getUserByEmail(String email) {
+        Customer customer = new Customer();
+        customer.setCustomerId(email);
+        customer = customerMapper.selectOne(customer);
+        return customer;
+    }
+
 }

@@ -23,12 +23,12 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
         //2.判断用户是否登录
         HttpSession session = request.getSession();
         // 若存在，则放行
-        if (Objects.nonNull(session.getAttribute("username"))) return true;
+        if (Objects.nonNull(session.getAttribute("email"))) return true;
         //拦截住，并给前端页面返回未登录信息，以输出流的方式，json格式返回
         response.setContentType("application/json; charset=utf-8");
         // 1、使用Fastjson（默认过滤null值）
         // 发送重定向响应:
-        response.sendRedirect("/login.html");
+        response.sendRedirect("/page-login.html");
         response.getWriter().write(JSON.toJSONString(new Result(false,500,"未登录！")));
         // 2、使用默认的Jackson，在配置文件中关于Jackson配置的相关属性会失效
         //response.getWriter().write(new ObjectMapper().writeValueAsString(R.error("未登录")));

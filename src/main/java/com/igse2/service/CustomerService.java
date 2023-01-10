@@ -11,4 +11,5 @@ public interface CustomerService {
     public List<Customer> findAll();
 
 
+    Customer getUserByEmail(String email);
 }
