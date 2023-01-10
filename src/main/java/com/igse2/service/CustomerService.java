@@ -12,4 +12,7 @@ public interface CustomerService {
 
 
     Customer getUserByEmail(String email);
+
+    void insert(Customer customer);
+
 }

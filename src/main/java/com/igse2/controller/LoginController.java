@@ -16,7 +16,7 @@ import javax.servlet.http.HttpSession;
 @RestController
 @Slf4j
 @RequestMapping("/user")
-public class LoginController {  
+public class LoginController {
 
     @Autowired
     private CustomerService customerService;
@@ -45,6 +45,18 @@ public class LoginController {
         }
         return new Result(false,304,"用户名或密码错误");
 
+    }
+
+    @CrossOrigin
+    @PostMapping(value = "/signUp")
+    public Result login(Customer customer,
+                        HttpServletRequest request, HttpServletResponse response) {
+        Customer user = customerService.getUserByEmail(customer.getCustomerId());
+        if (user != null) {
+            return new Result(false,304,"用户名已存在");
+        }
+        customerService.insert(customer);
+        return new Result(true,200,"注册成功",customer);
     }
 
     @RequestMapping(value = "/loginOut", method = RequestMethod.POST)

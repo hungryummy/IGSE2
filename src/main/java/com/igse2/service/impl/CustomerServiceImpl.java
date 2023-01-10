@@ -32,4 +32,9 @@ public class CustomerServiceImpl implements CustomerService {
         return customer;
     }
 
+    @Override
+    public void insert(Customer customer) {
+        customerMapper.insert(customer);
+    }
+
 }
