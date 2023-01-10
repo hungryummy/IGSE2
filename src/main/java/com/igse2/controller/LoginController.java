@@ -55,6 +55,8 @@ public class LoginController {
         if (user != null) {
             return new Result(false,304,"用户名已存在");
         }
+        // 加密
+        customer.setPasswordHash(HashGenerator.getSHA256(customer.getPasswordHash()));
         customerService.insert(customer);
         return new Result(true,200,"注册成功",customer);
     }
