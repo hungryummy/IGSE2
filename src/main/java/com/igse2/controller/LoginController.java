@@ -49,8 +49,11 @@ public class LoginController {
 
     @CrossOrigin
     @PostMapping(value = "/signUp")
-    public Result login(Customer customer,
+    public Result signUp(@RequestBody Customer customer,
                         HttpServletRequest request, HttpServletResponse response) {
+        if (customer.getCustomerId() == null || "".equals(customer.getCustomerId())){
+            return new Result(false,304,"用户名不规范");
+        }
         Customer user = customerService.getUserByEmail(customer.getCustomerId());
         if (user != null) {
             return new Result(false,304,"用户名已存在");
