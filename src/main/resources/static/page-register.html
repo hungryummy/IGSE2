@@ -40,45 +40,49 @@
                         </div>
                         <div class="login-form">
                             <h4>Register to Administration</h4>
-                            <form>
+                            <form name="formData">
                                 <div class="form-group">
                                     <label>Email address</label>
-                                    <input type="email" class="form-control" placeholder="Email">
+                                    <input type="email" name="customerId" class="form-control" placeholder="Email">
                                 </div>
                                 <div class="form-group">
                                     <label>Password</label>
-                                    <input type="password" class="form-control" placeholder="Password">
+                                    <input type="password" name="passwordHash" class="form-control" placeholder="Password">
                                 </div>
                                 <div class="form-group">
                                     <label>Address</label>
-                                    <input type="" class="form-control" placeholder="Address">
+                                    <input type="" name="address" class="form-control" placeholder="Address">
                                 </div>
                                 <div class="form-group">
                                     <label>Property Type</label>
-                                    <select class="form-control" required>
+                                    <select class="form-control" name="propertyType" required>
                                         <option selected disabled value="">Property Type</option>
-                                        <option value="jweb">detached,</option>
-                                        <option value="jweb">semi-detached,</option>
-                                        <option value="jweb">terraced</option>
-                                        <option value="jweb">flat</option>
-                                        <option value="jweb">cottage</option>
-                                        <option value="sweb">bungalow</option>
-                                        <option value="pmanager">mansion</option>
+                                        <option value="detached">detached,</option>
+                                        <option value="semi-detached">semi-detached,</option>
+                                        <option value="terraced">terraced</option>
+                                        <option value="jflat">flat</option>
+                                        <option value="cottage">cottage</option>
+                                        <option value="bungalow">bungalow</option>
+                                        <option value="mansion">mansion</option>
                                     </select>
                                     <div class="valid-feedback">You selected a position!</div>
                                     <div class="invalid-feedback">Please select a position!</div>
                                 </div>
                                 <div class="form-group">
                                     <label>Bedroom Number</label>
-                                    <input type="number" class="form-control" placeholder="Bedroom Number">
+                                    <input type="number" name="bedroomNum" class="form-control" placeholder="Bedroom Number">
+                                </div>
+                                <div class="form-group">
+                                    <label>Balance</label>
+                                    <input type="number" name="balance" class="form-control" placeholder="balance">
                                 </div>
                                 <div class="form-group">
                                     <label>Gender: </label>
 
-                                    <input type="radio" class="btn-btn" name="gender" id="admin" autocomplete="off" required>
+                                    <input type="radio" class="btn-btn" name="type" id="admin" autocomplete="off" required>
                                     <label class="btn btn-sm btn-outline-secondary" for="male">Admin</label>
 
-                                    <input type="radio" class="btn-btn" name="gender" id="customer" autocomplete="off" required>
+                                    <input type="radio" class="btn-btn" name="type" id="customer" autocomplete="off" required>
                                     <label class="btn btn-sm btn-outline-secondary" for="female">Customer</label>
 
                                     <div class="valid-feedback mv-up">You selected a type</div>
@@ -89,10 +93,11 @@
 										<input type="checkbox"> Agree the terms and policy 
 									</label>
                                 </div>
-                                <button type="submit" class="btn btn-primary btn-flat m-b-30 m-t-30">Register</button>
+                                <button type="submit" class="btn btn-primary btn-flat m-b-30 m-t-30  layui-btn" lay-submit lay-filter="register">Register</button>
                                 <div class="register-link m-t-15 text-center">
                                     <p>Already have account ? <a href="/page-login.html"> Sign in</a></p>
                                 </div>
+
                             </form>
                         </div>
                     </div>
@@ -100,7 +105,62 @@
             </div>
         </div>
     </div>
+    <script src="lib/layui/layui.js" charset="utf-8"></script>
+    <script src="js/x-layui.js" charset="utf-8"></script>
+    <!--导入Vue依赖包-->
+    <script src="/js/vue.js" charset="utf-8"></script>
+    <!-- 引入Element组件库 -->
+    <script src="/js/index.js"></script>
+    <!--导入Axios依赖包-->
+    <script src="/js/axios.js" charset="utf-8"></script>
+    <script type="text/javascript">
+        layui.use(['form'],function() {
+            $ = layui.jquery;
+            var form = layui.form(),
+                layer = layui.layer;
 
+            //监听提交
+            form.on('submit(register)',function(data) {
+
+                var dataF = document.formData
+                console.log(dataF);
+                var query = {
+                    "customerId":dataF.customerId.value,
+                    "passwordHash":dataF.passwordHash.value,
+                    "address":dataF.address.value,
+                    "propertyType":dataF.propertyType.value,
+                    "bedroomNum":dataF.bedroomNum.value,
+                    "balance":dataF.balance.value,
+                    "type":dataF.type.value
+                }
+                console.log(query);
+                // 提交表单
+                $.ajax({
+                    type: "POST",
+                    dataType: "json",
+                    contentType : 'application/json',//添加这句话
+                    url: "/user/signUp" ,
+                    data: JSON.stringify(query), //提交的数据
+                    success: function (result) {
+                        console.log(result);       //打印服务端返回的数据(调试用)
+                        if (result.resultCode == 200) {
+                            alert("提交成功");
+                        }
+                        ;
+                    },
+                    error : function() {
+                        alert("提交失败");
+                    }
+                });
+                // 注册成功
+                //location.href = "./index.html";
+                return false;
+
+
+            });
+
+        });
+    </script>
 </body>
 
 </html>
