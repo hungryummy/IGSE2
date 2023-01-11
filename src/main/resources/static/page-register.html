@@ -77,16 +77,14 @@
                                     <input type="number" name="balance" class="form-control" placeholder="balance">
                                 </div>
                                 <div class="form-group">
-                                    <label>Gender: </label>
-
-                                    <input type="radio" class="btn-btn" name="type" id="admin" autocomplete="off" required>
-                                    <label class="btn btn-sm btn-outline-secondary" for="male">Admin</label>
-
-                                    <input type="radio" class="btn-btn" name="type" id="customer" autocomplete="off" required>
-                                    <label class="btn btn-sm btn-outline-secondary" for="female">Customer</label>
-
-                                    <div class="valid-feedback mv-up">You selected a type</div>
-                                    <div class="invalid-feedback mv-up">Please select a type!</div>
+                                    <label>Type</label>
+                                    <select class="form-control" name="type" required>
+                                        <option selected disabled value="">Type</option>
+                                        <option value="admin">admin</option>
+                                        <option value="customer">customer</option>
+                                    </select>
+                                    <div class="valid-feedback">You selected a position!</div>
+                                    <div class="invalid-feedback">Please select a position!</div>
                                 </div>
                                 <div class="checkbox">
                                     <label>
