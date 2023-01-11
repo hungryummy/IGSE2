@@ -49,8 +49,10 @@ public class LoginController {
 
     @CrossOrigin
     @PostMapping(value = "/signUp")
-    public Result signUp(@RequestBody Customer customer,
+    public Result signUp(@RequestBody Customer customer,@RequestParam("voucher") String voucher,
                         HttpServletRequest request, HttpServletResponse response) {
+        //voucher字段是优惠券
+
         if (customer.getCustomerId() == null || "".equals(customer.getCustomerId())){
             return new Result(false,304,"用户名不规范");
         }

@@ -84,6 +84,13 @@
                                     <div class="valid-feedback mv-up">You selected a type</div>
                                     <div class="invalid-feedback mv-up">Please select a type!</div>
                                 </div>
+                                <!--Scan Voucher-->
+                                <div class="form-group">
+                                    <label>Please scan your voucher if you have someone:</label>
+                                    <button class="btn btn-primary btn-flat m-b-30 m-t-30  layui-btn" id="scan" name="scan">Scan</button>
+                                    <input type="" id="voucher" name="voucher" class="form-control" readonly>
+
+                                </div>
                                 <div class="checkbox">
                                     <label>
 										<input type="checkbox"> Agree the terms and policy 
@@ -127,6 +134,7 @@
                     "propertyType": dataF.propertyType.value,
                     "bedroomNum": dataF.bedroomNum.value,
                     // "balance": dataF.balance.value,
+                    "voucher": dataF.voucher.value,
                     "type": $('input:radio[name="type"]:checked').val()
                 }
                 // alert(query)
@@ -152,7 +160,26 @@
                 //location.href = "./index.html";
                 return false;
             })
+
+            $("#scan").click(function () {
+                layer.open({
+                    type: 2,
+                    title: 'Scan Voucher    ',
+                    area: ['530px', '500px'],
+                    content: ['/QRcode.html', 'no'],
+                    btn: ['确定', '取消'],
+                    yes: function (index, layero) {
+                        var body = layer.getChildFrame('body', index);  //此处我理解的是加载目标页面的内容
+                        $("#voucher").val(body.find('#tempValue').val());　　//查到目标页面的内容赋给当前页面元素
+                        // $("#voucher").val('11');
+                        //document.getElementById('name1').value='值';
+                        layer.close(index);//这块是点击确定关闭这个弹出层
+                    }
+                });
+            });
         })
+
+
     </script>
 
 </body>
