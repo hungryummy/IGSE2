@@ -57,8 +57,8 @@
                                     <label>Property Type</label>
                                     <select class="form-control" name="propertyType" required>
                                         <option selected disabled value="">Property Type</option>
-                                        <option value="detached">detached,</option>
-                                        <option value="semi-detached">semi-detached,</option>
+                                        <option value="detached">detached</option>
+                                        <option value="semi-detached">semi-detached</option>
                                         <option value="terraced">terraced</option>
                                         <option value="jflat">flat</option>
                                         <option value="cottage">cottage</option>
@@ -73,18 +73,16 @@
                                     <input type="number" name="bedroomNum" class="form-control" placeholder="Bedroom Number">
                                 </div>
                                 <div class="form-group">
-                                    <label>Balance</label>
-                                    <input type="number" name="balance" class="form-control" placeholder="balance">
-                                </div>
-                                <div class="form-group">
-                                    <label>Type</label>
-                                    <select class="form-control" name="type" required>
-                                        <option selected disabled value="">Type</option>
-                                        <option value="admin">admin</option>
-                                        <option value="customer">customer</option>
-                                    </select>
-                                    <div class="valid-feedback">You selected a position!</div>
-                                    <div class="invalid-feedback">Please select a position!</div>
+                                    <label>Type: </label>
+                                    <br>
+                                    <input type="radio" class="btn-btn" name="type" value="admin" id="admin" autocomplete="off" required>
+                                    <label class="btn btn-sm btn-outline-secondary" >Admin</label>
+
+                                    <input type="radio" class="btn-btn" name="type" value="customer" id="customer" autocomplete="off" required>
+                                    <label class="btn btn-sm btn-outline-secondary">Customer</label>
+
+                                    <div class="valid-feedback mv-up">You selected a type</div>
+                                    <div class="invalid-feedback mv-up">Please select a type!</div>
                                 </div>
                                 <div class="checkbox">
                                     <label>
@@ -118,26 +116,26 @@
                 layer = layui.layer;
 
             //监听提交
-            form.on('submit(register)',function(data) {
-
+            form.on('submit(register)', function (data) {
                 var dataF = document.formData
                 console.log(dataF);
+
                 var query = {
-                    "customerId":dataF.customerId.value,
-                    "passwordHash":dataF.passwordHash.value,
-                    "address":dataF.address.value,
-                    "propertyType":dataF.propertyType.value,
-                    "bedroomNum":dataF.bedroomNum.value,
-                    "balance":dataF.balance.value,
-                    "type":dataF.type.value
+                    "customerId": dataF.customerId.value,
+                    "passwordHash": dataF.passwordHash.value,
+                    "address": dataF.address.value,
+                    "propertyType": dataF.propertyType.value,
+                    "bedroomNum": dataF.bedroomNum.value,
+                    // "balance": dataF.balance.value,
+                    "type": $('input:radio[name="type"]:checked').val()
                 }
-                console.log(query);
+                // alert(query)
                 // 提交表单
                 $.ajax({
                     type: "POST",
                     dataType: "json",
-                    contentType : 'application/json',//添加这句话
-                    url: "/user/signUp" ,
+                    contentType: 'application/json',//添加这句话
+                    url: "/user/signUp",
                     data: JSON.stringify(query), //提交的数据
                     success: function (result) {
                         console.log(result);       //打印服务端返回的数据(调试用)
@@ -146,19 +144,17 @@
                         }
                         ;
                     },
-                    error : function() {
+                    error: function () {
                         alert("提交失败");
                     }
                 });
                 // 注册成功
                 //location.href = "./index.html";
                 return false;
-
-
-            });
-
-        });
+            })
+        })
     </script>
+
 </body>
 
 </html>
