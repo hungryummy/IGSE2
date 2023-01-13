@@ -3,7 +3,6 @@ package com.igse2.controller;
 import com.igse2.auth.HashGenerator;
 import com.igse2.common.Result;
 import com.igse2.entity.Customer;
-import com.igse2.mapper.CustomerMapper;
 import com.igse2.service.CustomerService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,8 +50,6 @@ public class LoginController {
     @PostMapping(value = "/signUp")
     public Result signUp(@RequestBody Customer customer,@RequestParam("voucher") String voucher,
                         HttpServletRequest request, HttpServletResponse response) {
-        //voucher字段是优惠券
-
         if (customer.getCustomerId() == null || "".equals(customer.getCustomerId())){
             return new Result(false,304,"用户名不规范");
         }
@@ -60,9 +57,17 @@ public class LoginController {
         if (user != null) {
             return new Result(false,304,"用户名已存在");
         }
+        //voucher字段是优惠券
+        //1.去查询voucher库,如果有字段则证明有效
+        //给账号的balance加上200镑，
+        //customer.setBalance("200");
         // 加密
         customer.setPasswordHash(HashGenerator.getSHA256(customer.getPasswordHash()));
         customerService.insert(customer);
+
+        //2.把 优惠券使用次数 "used" +1
+
+
         return new Result(true,200,"注册成功",customer);
     }
 
