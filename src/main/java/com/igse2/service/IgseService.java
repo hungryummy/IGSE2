@@ -14,4 +14,5 @@ public interface IgseService {
     List<Igse> findByProperty(String Property);
 
 
+    Double costPerDay(String propertyType, String roomNum);
 }
