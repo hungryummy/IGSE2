@@ -21,7 +21,7 @@
 </head>
 <body>
 <div class="x-body">
-    <form class="layui-form layui-form-pane" action="" id="add">
+    <form class="layui-form layui-form-pane" action="" id="add" name="rateForm">
         <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
             <div class="layui-tab-content" >
                 <div class="layui-tab-item layui-show">
@@ -78,9 +78,9 @@
 
         //监听提交
         form.on('submit(update)', function (data) {
-            var dataF = document.formData
-            console.log(dataF);
 
+            var dataF = document.rateForm
+            alert(data)
             var query = {
                 "taiffType": dataF.taiffType.value,
                 "rate": dataF.rate.value,
