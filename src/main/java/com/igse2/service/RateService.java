@@ -12,5 +12,10 @@ public interface RateService {
 
     public List<Rate>  viewAll();
 
+    public Rate findById(String taiffType);
+
+    Boolean update1(Rate rate);
+
     public Page<Rate> search(Map searchMap);
+
 }

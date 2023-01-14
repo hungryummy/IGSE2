@@ -11,6 +11,6 @@ public class MyMvcConfig implements WebMvcConfigurer {
         registry.addInterceptor(new LoginCheckInterceptor())
                 .addPathPatterns("/**").excludePathPatterns("/user/login", "/user/logout","/page-login.html"
                         ,"/css/**","/lib/**","/js/**","/page-register.html"
-                        ,"/user/signUp","/QRcode.html","/**.js","/igse/propertycount");
+                        ,"/user/signUp","/QRcode.html","/**.js","/igse/propertycount","/customer/add","/igse/{propertyType}/{roomNum}","/rate/update","/homeadd.html");
     }
 }

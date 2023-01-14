@@ -40,7 +40,6 @@
                         <!-- 二级菜单 -->
                         <dd><a href="javascript:;"  onclick="one_set('个人信息','one_set.html','1000','600')">Personal information</a>
                         </dd>
-                        <dd><a href="">Change account</a></dd>
                         <dd><a href="/page-login.html;" onclick="logout()">Log Out</a></dd>
                     </dl>
                 </li>
@@ -58,7 +57,7 @@
                 <img src="./images/tx.jpg" class="userAvatar" style="display: block;width: 100%;height: 100%;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;border: 4px solid #44576b;box-sizing: border-box;">
             </a>
             <p style=" display: block;width: 100%;height: 25px;color: #ffffff;text-align: center;font-size: 12px;white-space: nowrap;line-height: 25px;overflow: hidden;">
-                Hello，<span class="userName">admin</span>, Welcome Back！
+                <span class="userName">Customer</span>, Welcome Back！
             </p>
         </div>
         <div class="layui-side-scroll">
@@ -66,27 +65,27 @@
             <ul class="layui-nav layui-nav-tree site-demo-nav" lay-filter="side">
 
 
-                <li class="layui-nav-item"> <a class="javascript:;" href="javascript:;" _href="welcome.html"> <i class="layui-icon left-nav-li" lay-tips="首页">&#xe68e;</i><cite>DashBoard</cite> </a>
+                <li class="layui-nav-item"> <a class="javascript:;" href="javascript:;" _href="communitylist.html"> <i class="layui-icon left-nav-li" lay-tips="首页">&#xe68e;</i><cite>DashBoard</cite> </a>
                 </li>
                 <li class="layui-nav-item"> <a class="javascript:;" href="javascript:;"> <i class="iconfont icon-dashaxiaoqudizhi01" style="top: 3px;"></i><cite>Reading Management</cite> </a>
                     <dl class="layui-nav-child">
-                        <dd class="">
-                        <dd class=""> <a href="javascript:;" _href="communitylist.html"> <cite>Reading List</cite> </a> </dd>
-                        </dd>
+
+                        <dd class=""> <a href="javascript:;" _href="communitylist.html"> <cite>View Reading</cite> </a> </dd>
+                        <dd class=""> <a href="javascript:;" _href="communityadd.html"> <cite>Submit Reading</cite> </a> </dd>
                     </dl>
                 </li>
                 <li class="layui-nav-item"> <a class="javascript:;" href="javascript:;"> <i class="layui-icon iconfont icon-zichan" style="top: 3px;"></i><cite>Pay</cite> </a>
                     <dl class="layui-nav-child">
                         <dd class="">
                         <dd class=""> <a href="javascript:;" _href="homelist.html"> <cite>Top up</cite> </a> </dd>
-                        </dd>
+
                     </dl>
                 </li>
                 <li class="layui-nav-item"> <a class="javascript:;" href="javascript:;"> <i class="layui-icon iconfont icon-yezhuxian" style="top: 3px;"></i><cite>Customer Managemen</cite> </a>
                     <dl class="layui-nav-child">
                         <dd class="">
                         <dd class=""> <a href="javascript:;" _href="personnel_list.html"> <cite>Customer Setting</cite> </a> </dd>
-                        </dd>
+
                     </dl>
                 </li>
                 <li class="layui-nav-item" style="height: 30px; text-align: center"> </li>
@@ -195,7 +194,7 @@
         </ul>
         <div class="layui-tab-content site-demo site-demo-body">
             <div class="layui-tab-item layui-show">
-                <iframe frameborder="0" src="welcome.html" class="x-iframe"></iframe>
+                <iframe frameborder="0" src="communitylist.html" class="x-iframe"></iframe>
             </div>
         </div>
     </div>

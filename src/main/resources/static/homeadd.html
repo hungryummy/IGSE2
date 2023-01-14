@@ -29,107 +29,34 @@
 
                     <div class="layui-form-item">
                         <label class="layui-form-label">
-                            <span class='x-red'>*</span>所属小区
+                            <span class='x-red'>*</span>Taiff Type
                         </label>
                         <div class="layui-input-block">
-                            <select name="community_id" id="community_id" lay-filter="aihao">
-                                <option value="0">---请选择所属小区---</option>
-                                <option value="1" >东湖小区</option>
-                                <option value="2" >金华万府</option>
+                            <select name="taiffType" id="taiffType" lay-filter="aihao">
+                                <option value="0">---Please select the Taiff Type---</option>
+                                <option value="electricity_day" >electricity_day</option>
+                                <option value="electricity_night" >electricity_night</option>
+                                <option value="gas" >gas</option>
+                                <option value="sanding_charge" >sanding_charge</option>
                             </select>
                         </div>
                     </div>
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">
-                            <span class='x-red'>*</span>栋数
-                        </label>
-                        <div class="layui-input-block">
-                            <select name="building_id" id="building_id">
-
-                                <option value="0"></option>
-
-                            </select>
-                        </div>
-                    </div>
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">
-                            <span class='x-red'>*</span>房产名称
-                        </label>
-                        <div class="layui-input-block">
-                            <input type="text" name="home_name" autocomplete="off" placeholder="空制在80个汉字，160个字符以内"
-                                   class="layui-input" value="">
-                        </div>
-                    </div>
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">
-                            <span class='x-red'>*</span>户主名称
-                        </label>
-                        <div class="layui-input-block">
-                            <input type="text" name="householder" autocomplete="off" placeholder=""
-                                   class="layui-input" value="">
-                        </div>
-                    </div>
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">
-                            <span class='x-red'>*</span>联系方式
-                        </label>
-                        <div class="layui-input-block">
-                            <input type="text" name="phone" autocomplete="off" placeholder=""
-                                   class="layui-input" lay-verify="required|phone" value="">
-                        </div>
-                    </div>
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">
-                            <span class='x-red'>*</span>房间数
-                        </label>
-                        <div class="layui-input-block">
-                            <input type="text" name="home_number" autocomplete="off" placeholder=""
-                                   class="layui-input" lay-verify="required|number" value="">
-                        </div>
-                    </div>
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">
-                            <span class='x-red'>*</span>单元
-                        </label>
-                        <div class="layui-input-block">
-                            <input type="text" name="unit_building" autocomplete="off" placeholder="请输入数字"
-                                   class="layui-input" lay-verify="required|number" value="">
-                        </div>
-                    </div>
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">
-                            <span class='x-red'>*</span>楼层
-                        </label>
-                        <div class="layui-input-block">
-                            <input type="text" name="floor" autocomplete="off" placeholder="请输入数字"
-                                   class="layui-input" lay-verify="required|number" value="">
-                        </div>
-                    </div>
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">
-                            <span class='x-red'>*</span>入住时间
-                        </label>
-
-                        <div class="layui-input-inline">
-                            <input class="layui-input" name="rz_time" placeholder="入住时间" id="LAY_demorange_s" value="">
-                        </div>
-
-                    </div>
-                    <div class="layui-form-item layui-form-text">
-                        <label class="layui-form-label">
-                            <span class='x-red'>*</span>描述
-                        </label>
-                        <div class="layui-input-block">
-                            <textarea placeholder="请输入内容" name="desc" class="layui-textarea"></textarea>
-                        </div>
-                    </div>
 
                     <div class="layui-form-item">
-                        <button class="layui-btn" type="button" lay-filter="add" lay-submit="">
-                            保存
+                        <label class="layui-form-label">
+                            <span class='x-red'>*</span>Rate
+                        </label>
+                        <div class="layui-input-block">
+                            <input type="rate" name="rate" autocomplete="off" placeholder=""
+                                   class="layui-input" lay-verify="required|number" >
+
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <button type="submit" class="btn btn-primary btn-flat m-b-60 m-t-30  layui-btn" lay-submit lay-filter="update">
+                            submit
                         </button>
                     </div>
-                    <!--</form>-->
                     <div style="height:100px;"></div>
                 </div>
 
@@ -142,6 +69,46 @@
 <script src="js/x-layui.js" charset="utf-8"></script>
 <script src="js/jquery.min.js" charset="utf-8"></script>
 <!--<script src="/static/xiyuan/js/jquery.js" charset="utf-8"></script>-->
+
+<script type="text/javascript">
+    layui.use(['form'],function() {
+        $ = layui.jquery;
+        var form = layui.form(),
+            layer = layui.layer;
+
+        //监听提交
+        form.on('submit(update)', function (data) {
+            var dataF = document.formData
+            console.log(dataF);
+
+            var query = {
+                "taiffType": dataF.taiffType.value,
+                "rate": dataF.rate.value,
+            }
+            // 提交表单
+            $.ajax({
+                type: "POST",
+                dataType: "json",
+                contentType: 'application/json',//添加这句话
+                url: "/rate/update",
+                data: JSON.stringify(query), //提交的数据
+                success: function (result) {
+                    console.log(result);       //打印服务端返回的数据(调试用)
+                    if (result.resultCode == 200) {
+                        alert("提交成功");
+                    }
+                    ;
+                },
+                error: function () {
+                    alert("提交失败");
+                }
+            });
+            return false;
+        });
+    })
+</script>
+
+
 <script>
 
     layui.use(['laydate','element','layer','form'], function(){

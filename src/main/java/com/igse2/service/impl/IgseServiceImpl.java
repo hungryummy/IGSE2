@@ -33,12 +33,12 @@ public class IgseServiceImpl implements IgseService {
     }
 
     @Override
-    public Double costPerDay(String propertyType, String roomNum) {
+    public Double costPerDay(String propertyType, String bedroomNum) {
         Integer dayValue = 0;
         Integer nightValue = 0;
         Integer gasValue = 0;
         Integer day = 0;
-        List<Reading> readings = igseMapper.findTop2Record(propertyType,roomNum);
+        List<Reading> readings = igseMapper.findTop2Record(propertyType,bedroomNum);
         // 分用户处理
         Map<String, List<Reading>> collect = readings.stream().collect(Collectors.groupingBy(Reading::getCustomerId));
         // 循环处理同用户下的数据

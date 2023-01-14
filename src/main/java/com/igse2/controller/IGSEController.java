@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -32,18 +33,20 @@ public class IGSEController {
 
     }
 
-    @RequestMapping(value ="/{propertyType}/{roomNum}")
-    public Result find(@PathVariable("propertyType") String propertyType,@PathVariable("roomNum") String roomNum){
+    @RequestMapping(value ="/{propertyType}/{bedroomNum}")
+    public Object find(@PathVariable("propertyType") String propertyType,@PathVariable("bedroomNum") String bedroomNum){
 
         // 计算平均每日开销
-        Double money = igseServicee.costPerDay(propertyType,roomNum);
+        Double money = igseServicee.costPerDay(propertyType,bedroomNum);
 //        Map<String, Long > groupListMap = all.stream().collect(Collectors.groupingBy(Igse::getPropertyType, Collectors.counting()));
-        Map<String, Object> res = new HashMap<>();
+        Map<String, Object> res = new LinkedHashMap<>();
         res.put("propertyType",propertyType);
-        res.put("roomNum",roomNum);
+        res.put("bedroomNum",bedroomNum);
         res.put("per_day",money);
         res.put("unit","pound");
-        return new Result(true,200,"successful",res);
+//        return new Result(true,200,"successful",res);
+        Object t= res;
+        return t;
     }
 
 }

@@ -25,6 +25,20 @@ public class RateServiceImpl implements RateService {
         List<Rate> rate = rateMapper.selectAll();
         return rate;
     }
+    @Override
+    public Rate findById(String taiffType) {
+        return rateMapper.selectByPrimaryKey(taiffType);
+    }
+
+    @Override
+    public Boolean update1(Rate rate) {
+        int row =  rateMapper.updateByPrimaryKey(rate);
+        if (row > 0 ){
+            return true;
+        }else{
+            return false;
+        }
+    }
 
     @Override
     public Page<Rate> search(Map searchMap) {

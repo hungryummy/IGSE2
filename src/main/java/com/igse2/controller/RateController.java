@@ -37,6 +37,21 @@ public class RateController {
         Page<Rate> page = rateService.search(searchMap);
         return new PageResult(true, StatusCode.OK, MessageConstant.COMMUNITY_SEARCH_SUCCESS, page.getResult(), page.getTotal() );
     }
+
+
+    @RequestMapping("/findById")
+    public Result findById(String taiffType){
+        Rate rate = rateService.findById(taiffType);
+        return new Result(true, StatusCode.OK, MessageConstant.COMMUNITY_FIND_BY_ID_SUCCESS,rate);
+    }
+    @RequestMapping("/update")
+    public Result update(@RequestBody Rate  rate){
+        Boolean add = rateService.update1(rate);
+        return new Result(true, StatusCode.OK, MessageConstant.COMMUNITY_UPDATE_SUCCESS);
+    }
+
+
+
 }
 
 
