@@ -3,17 +3,20 @@ package com.igse2.controller;
 import com.igse2.auth.HashGenerator;
 import com.igse2.common.Result;
 import com.igse2.entity.Customer;
+import com.igse2.entity.RegisterModel;
 import com.igse2.entity.Voucher;
 import com.igse2.mapper.VoucherMapper;
 import com.igse2.service.CustomerService;
 import com.igse2.service.VoucherService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.beans.BeanProperty;
 import java.util.List;
 
 @RestController
@@ -57,8 +60,10 @@ public class LoginController {
 
     @CrossOrigin
     @PostMapping(value = "/signUp")
-    public Result signUp(@RequestBody Customer customer,@RequestParam("voucher") String voucher,
+    public Result signUp(@RequestBody RegisterModel registerModel,
                         HttpServletRequest request, HttpServletResponse response) {
+        Customer customer = new Customer();
+        BeanUtils.copyProperties(registerModel,customer);
         if (customer.getCustomerId() == null || "".equals(customer.getCustomerId())){
             return new Result(false,304,"用户名不规范");
         }
@@ -66,7 +71,7 @@ public class LoginController {
         if (user != null) {
             return new Result(false,304,"用户名已存在");
         }
-        //voucher字段是优惠券
+
         //1.check voucher, valid if it exists and used = 0
         //customer.setBalance("200");
         // 2. "used" +1
@@ -81,20 +86,20 @@ public class LoginController {
 //                }
 //            }
 //        }
-        Voucher voucher1 = voucherService.queryUsedExist(voucher);
+        Voucher voucher1 = voucherService.queryUsedExist(registerModel.getVoucher());
         if(voucher1 == null){
-            //y优惠券不存在
+            //not  valid
             return new Result(false,304,"code does not exist");
         } else if (voucher1.getUsed() == 1) {
-            //y已被使用
+            //has been used
             return new Result(false,304,"the code has been used");
         }
         //1.customer.setBalance("200");
 
         customer.setBalance("200");
         voucher1.setUsed(1);
-        //2.update 优惠券，置为y已使用
-        voucherMapper.updateByPrimaryKey(voucher1);
+        //2.update used
+        voucherMapper.updateByPrimaryKeyDiy(voucher1);
         // hashcode
         customer.setPasswordHash(HashGenerator.getSHA256(customer.getPasswordHash()));
         customerService.insert(customer);

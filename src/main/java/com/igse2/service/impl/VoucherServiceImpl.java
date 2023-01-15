@@ -24,8 +24,6 @@ public class VoucherServiceImpl implements VoucherService {
 
     @Override
     public Voucher queryUsedExist(String voucher) {
-        Voucher voucher1 = new Voucher();
-        voucher1.setEVCCode(voucher);
-        return voucherMapper.selectOne(voucher1);
+        return voucherMapper.selectOneVoucher(voucher);
     }
 }

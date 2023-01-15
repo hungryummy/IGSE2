@@ -16,6 +16,7 @@ public class Customer  implements Serializable {
     private String balance;
     private String type;
 
+
     public String getCustomerId() {
         return customerId;
     }
@@ -71,4 +72,6 @@ public class Customer  implements Serializable {
     public void setType(String type) {
         this.type = type;
     }
+
+
 }

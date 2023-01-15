@@ -7,6 +7,7 @@ import java.io.Serializable;
 @Table(name= "Voucher")
 public class Voucher  implements Serializable {
 
+
     private String EVCCode;
     private int used;
 
