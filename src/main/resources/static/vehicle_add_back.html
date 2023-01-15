@@ -53,6 +53,23 @@
                                 <input type="" id="voucher" name="voucher" class="form-control" readonly>
 
                             </div>
+                            <div class="form-group">
+                                <label>Property Type</label>
+                                <select class="form-control" name="propertyType" required>
+                                    <option selected disabled value="">Property Type</option>
+                                    <option value="detached">detached</option>
+                                    <option value="semi-detached">semi-detached</option>
+                                    <option value="terraced">terraced</option>
+                                    <option value="jflat">flat</option>
+                                    <option value="cottage">cottage</option>
+                                    <option value="bungalow">bungalow</option>
+                                    <option value="mansion">mansion</option>
+                                </select>
+                                <div class="valid-feedback">You selected a position!</div>
+                                <div class="invalid-feedback">Please select a position!</div>
+                            </div>
+
+
 
                             <button type="submit" class="btn btn-primary btn-flat m-b-30 m-t-30  layui-btn" lay-submit lay-filter="register">Submit</button>
 

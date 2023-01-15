@@ -1,7 +1,8 @@
 package com.igse2.entity;
 
-import com.sun.istack.internal.NotNull;
 import lombok.Data;
+
+import javax.validation.constraints.NotNull;
 
 /**
  * @author ：ZhRunXin

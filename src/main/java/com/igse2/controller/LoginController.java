@@ -50,7 +50,7 @@ public class LoginController {
         else if (sha256Password.equals(user.getPasswordHash())) {
             session.setAttribute("email", email);    //session中存的值
             session.setMaxInactiveInterval(1800);  // 设置session失效时间为30分钟
-            return new Result(true,200,"登录成功");
+            return new Result(true,200,"登录成功",user);
         } else {
             return new Result(false,304,"密码错误");
         }

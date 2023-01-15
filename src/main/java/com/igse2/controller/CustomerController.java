@@ -10,12 +10,12 @@ import com.igse2.entity.Customer;
 import com.igse2.entity.Reading;
 import com.igse2.entity.Recharge;
 import com.igse2.service.CustomerService;
-import com.igse2.service.RateService;
 import com.igse2.service.ReadingService;
-import com.sun.istack.internal.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Map;
 
@@ -46,6 +46,18 @@ public class CustomerController {
         Page<Reading> page = readingService.search(searchMap);
         return new PageResult(true, StatusCode.OK, MessageConstant.COMMUNITY_SEARCH_SUCCESS, page.getResult(), page.getTotal() );
     }
+
+    // 1.wenjianm
+    //2.qingqiulujing
+    @RequestMapping("/searchCustomer")
+    public PageResult searchCustomer(@RequestBody Map searchMap, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        Object email = session.getAttribute("email");
+        searchMap.put("customerId",(String)email);
+        Page<Reading> page = readingService.search(searchMap);
+        return new PageResult(true, StatusCode.OK, MessageConstant.COMMUNITY_SEARCH_SUCCESS, page.getResult(), page.getTotal() );
+    }
+
     @RequestMapping("/add")
     public Result add(@RequestBody Reading reading){
         Boolean add = readingService.add(reading);
@@ -77,9 +89,14 @@ public class CustomerController {
     public Result reCharge(@RequestBody Recharge recharge){
         Boolean flag = customerService.reCharge(recharge.getVoucher(),recharge.getCustomerId());
         if (flag == true){
-            return new Result(true,StatusCode.OK, MessageConstant.COMMUNITY_UPDATE_STATUS_SUCCESS );
+            return new Result(true,StatusCode.OK, "充值成功" );
         }
         return new Result(false,StatusCode.ERROR, "充值失败！" );
+    }
+
+    @RequestMapping(value = "/payBill",method = RequestMethod.POST)
+    public Result payBill(@RequestBody Reading reading){
+        return customerService.payBill(reading);
     }
 
 }

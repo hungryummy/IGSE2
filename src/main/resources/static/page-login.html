@@ -90,8 +90,14 @@
                             data: data.field, //提交的数据
                             success: function (result) {
                                 console.log(result);       //打印服务端返回的数据(调试用)
-                                if (result.resultCode == 200) {
-                                    alert("提交成功");
+                                if (result.code == 200) {
+                                    var data = result.data
+                                    if(data.type == 'admin'){
+                                        location.href = "./index.html";
+                                        return true
+                                    }
+                                    location.href = "./customerList.html";
+                                    return true
                                 }
                                 ;
                             },
@@ -100,11 +106,11 @@
                             }
                         });
 
-                        layer.alert(JSON.stringify(data.field), {
-                            title: 'click to login'
-                        },function  () {
-                            location.href = "./index.html";
-                        })
+                        // layer.alert(JSON.stringify(data.field), {
+                        //     title: 'click to login'
+                        // },function  () {
+                        //     location.href = "./index.html";
+                        // })
                         return false;
 
 

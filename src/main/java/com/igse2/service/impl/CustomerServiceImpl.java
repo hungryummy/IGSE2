@@ -3,10 +3,14 @@ package com.igse2.service.impl;
 import com.github.pagehelper.Page;
 import com.igse2.common.Result;
 import com.igse2.entity.Customer;
+import com.igse2.entity.Rate;
+import com.igse2.entity.Reading;
 import com.igse2.entity.Voucher;
 import com.igse2.mapper.CustomerMapper;
+import com.igse2.mapper.RateMapper;
 import com.igse2.mapper.VoucherMapper;
 import com.igse2.service.CustomerService;
+import com.igse2.service.RateService;
 import com.igse2.service.VoucherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +20,7 @@ import tk.mybatis.mapper.util.StringUtil;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
@@ -27,6 +32,9 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Autowired
     private VoucherMapper voucherMapper;
+
+    @Autowired
+    private RateMapper rateMapper;
 
     @Override
     public List<Customer> findAll() {
@@ -71,10 +79,42 @@ public class CustomerServiceImpl implements CustomerService {
         voucherMapper.updateByPrimaryKeyDiy(voucher1);
         // 余额加200
         String balance = customer1.getBalance();
-        Integer balanceNow = Integer.parseInt(balance) + 200;
-        customer1.setBalance(balanceNow.toString());
+        float v = Float.parseFloat(balance) + 200f;
+        customer1.setBalance(String.valueOf(v));
         customerMapper.updateByPrimaryKey(customer1);
         return true;
+    }
+
+    @Override
+    public Result payBill(Reading reading) {
+        //query rate
+        List<Rate> rates = rateMapper.selectAll();
+        // ji suan jin e
+        Map<String, String> collect = rates.stream().collect(Collectors.toMap(Rate::getTaiffType, e -> e.getRate()));
+        //suan
+        Integer elecReadingsDay = reading.getElecReadingsDay();
+        Integer gasReading = reading.getGasReading();
+        Integer eletReadingNight = reading.getEletReadingNight();
+        float v = Float.parseFloat(collect.get("electricity_day")) * elecReadingsDay
+                + Float.parseFloat(collect.get("electricity_night")) * eletReadingNight
+                + Float.parseFloat(collect.get("gas")) * gasReading;
+
+        // yue
+        Customer customer = new Customer();
+        customer.setCustomerId(reading.getCustomerId());
+        Customer customer1 = customerMapper.selectOne(customer);
+        String balance = customer1.getBalance();
+        float v1 = Float.parseFloat(balance);
+        if (v1 < v){
+            //buzu
+            return new Result();
+        }
+        float v2 = v1 - v;
+        String s = String.valueOf(v2);
+        customer1.setBalance(s);
+        int i = customerMapper.updateByPrimaryKey(customer1);
+        // chenggong
+        return new Result();
     }
 
 }
