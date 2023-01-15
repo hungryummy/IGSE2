@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Focus Admin: Widget</title>
+
+    <!-- ================= Favicon ================== -->
+    <!-- Standard -->
+<!--    <link rel="shortcut icon" href="http://placehold.it/64.png/000/fff">-->
+<!--    &lt;!&ndash; Retina iPad Touch Icon&ndash;&gt;-->
+<!--    <link rel="apple-touch-icon" sizes="144x144" href="http://placehold.it/144.png/000/fff">-->
+<!--    &lt;!&ndash; Retina iPhone Touch Icon&ndash;&gt;-->
+<!--    <link rel="apple-touch-icon" sizes="114x114" href="http://placehold.it/114.png/000/fff">-->
+<!--    &lt;!&ndash; Standard iPad Touch Icon&ndash;&gt;-->
+<!--    <link rel="apple-touch-icon" sizes="72x72" href="http://placehold.it/72.png/000/fff">-->
+<!--    &lt;!&ndash; Standard iPhone Touch Icon&ndash;&gt;-->
+<!--    <link rel="apple-touch-icon" sizes="57x57" href="http://placehold.it/57.png/000/fff">-->
+
+    <!-- Styles -->
+    <link href="css/lib/font-awesome.min.css" rel="stylesheet">
+    <link href="css/lib/themify-icons.css" rel="stylesheet">
+    <link href="css/lib/bootstrap.min.css" rel="stylesheet">
+    <link href="css/lib/helper.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script src="./lib/layui/layui.js" charset="utf-8"></script>
+</head>
+
+<body class="bg-primary">
+
+    <div class="unix-login">
+        <div class="container-fluid">
+            <div class="row justify-content-center">
+                <div class="col-lg-6">
+                    <div class="login-content">
+                        <div class="login-logo">
+                            <a href="index.html"><span>Focus</span></a>
+                        </div>
+                        <div class="login-form">
+                            <h4>Administratior Login</h4>
+                            <form class="layui-form">
+                                <div class="form-group">
+                                    <label>Email address</label>
+                                    <input type="email" name="email"  class="form-control" placeholder="Email">
+                                </div>
+                                <div class="form-group">
+                                    <label>Password</label>
+                                    <input type="password" name="password"  class="form-control" placeholder="Password">
+                                </div>
+                                <div class="checkbox">
+                                    <label>
+										<input type="checkbox"> Remember Me</label>
+                                    <label class="pull-right">
+										<a href="#">Forgotten Password?</a>
+									</label>
+
+                                </div>
+                                <button type="submit" class="btn btn-primary btn-flat m-b-30 m-t-30 layui-btn"  lay-submit lay-filter="login">Sign in</button>
+                                <div class="register-link m-t-15 text-center">
+                                    <p>Don't have account ? <a href="/page-register.html"> Sign Up Here</a></p>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        layui.use(['form'],function() {
+                $ = layui.jquery;
+                var form = layui.form(),
+                    layer = layui.layer;
+
+                //监听提交
+                form.on('submit(login)',function(data) {
+                        // console.log(form);
+                        console.log(data);
+                        // data.field.username
+                        // data.field.password
+                        // 提交表单
+                        $.ajax({
+                            type: "POST",
+                            dataType: "json",
+                            url: "/user/login" ,
+                            data: data.field, //提交的数据
+                            success: function (result) {
+                                console.log(result);       //打印服务端返回的数据(调试用)
+                                if (result.resultCode == 200) {
+                                    alert("提交成功");
+                                }
+                                ;
+                            },
+                            error : function() {
+                                alert("提交失败");
+                            }
+                        });
+
+                        layer.alert(JSON.stringify(data.field), {
+                            title: 'click to login'
+                        },function  () {
+                            location.href = "./index.html";
+                        })
+                        return false;
+
+
+                    });
+
+            });
+
+    </script>
+
+</body>
+
+</html>
