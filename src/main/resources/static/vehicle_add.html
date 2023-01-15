@@ -1,205 +1,137 @@
-
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
     <meta charset="utf-8">
-    <title>
-        车辆添加
-    </title>
-    <meta name="renderer" content="webkit">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="format-detection" content="telephone=no">
-    <link rel="stylesheet" href="css/main.css" media="all">
-    <script type="text/javascript" src="lib/loading/okLoading.js"></script>
-    <style>
-        .imgs{display: none;}
-        .picture{display: none;}
-    </style>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <title>Focus Admin: Widget</title>
+
+    <!-- ================= Favicon ================== -->
+    <!-- Standard -->
+    <link rel="shortcut icon" href="http://placehold.it/64.png/000/fff">
+    <!-- Retina iPad Touch Icon-->
+    <link rel="apple-touch-icon" sizes="144x144" href="http://placehold.it/144.png/000/fff">
+    <!-- Retina iPhone Touch Icon-->
+    <link rel="apple-touch-icon" sizes="114x114" href="http://placehold.it/114.png/000/fff">
+    <!-- Standard iPad Touch Icon-->
+    <link rel="apple-touch-icon" sizes="72x72" href="http://placehold.it/72.png/000/fff">
+    <!-- Standard iPhone Touch Icon-->
+    <link rel="apple-touch-icon" sizes="57x57" href="http://placehold.it/57.png/000/fff">
+
+    <!-- Styles -->
+    <link href="css/lib/font-awesome.min.css" rel="stylesheet">
+    <link href="css/lib/themify-icons.css" rel="stylesheet">
+    <link href="css/lib/bootstrap.min.css" rel="stylesheet">
+    <link href="css/lib/helper.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
 </head>
-<body>
 
-<div class="x-body">
-    <form class="layui-form layui-form-pane" action="" id="add">
-        <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
+<body class="bg-primary">
 
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">
-                            <span class='x-red'>*</span>ID Adress
-                        </label>
-                        <div class="layui-input-block">
-                            <input type="text" name="veh_hphm" autocomplete="off" placeholder="Email Adress"
-                                   class="layui-input" value="">
-                        </div>
-                        <div class="form-group">
-                            <label>Please scan your voucher:</label>
-                            <button class="btn btn-primary btn-flat m-b-30 m-t-30  layui-btn" id="scan" name="scan">Scan</button>
-                            <input type="" id="voucher" name="voucher" class="form-control" readonly>
-
-                        </div>
-
-                    <div class="layui-form-item">
-                        <button class="layui-btn" type="button" lay-filter="add" lay-submit="">
-                            submit
-                        </button>
+<div class="unix-login">
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-lg-6">
+                <div class="login-content">
+                    <div class="login-logo">
+                        <a href="index.html"><span>Focus</span></a>
                     </div>
+                    <div class="login-form">
+                        <h4>Top Up</h4>
+                        <form name="formData">
+                            <!--Scan Voucher-->
+
+                            <div class="form-group">
+                                <label>Email address</label>
+                                <input type="email" name="customerId" class="form-control" placeholder="Email">
+                            </div>
+                            <div class="form-group">
+                                <label>Please scan your voucher:</label>
+                                <button  type="button" class="btn btn-primary btn-flat m-b-30 m-t-30  layui-btn" id="scan" name="scan">Scan</button>
+                                <input type="" id="voucher" name="voucher" class="form-control" readonly>
+
+                            </div>
+
+                            <button type="submit" class="btn btn-primary btn-flat m-b-30 m-t-30  layui-btn" lay-submit lay-filter="register">Submit</button>
 
 
-
-
-                    <div style="height:100px;"></div>
+                        </form>
+                    </div>
                 </div>
-
-
-
             </div>
-
         </div>
-    </form>
+    </div>
 </div>
 <script src="lib/layui/layui.js" charset="utf-8"></script>
 <script src="js/x-layui.js" charset="utf-8"></script>
-<script src="js/jquery.min.js" charset="utf-8"></script>
-
-<script>
-    layui.use(['element','layer','form'], function(){
-        $ = layui.jquery;//jquery
-        lement = layui.element();//面包导航
-        layer = layui.layer;//弹出层
-        form = layui.form();
-        okLoading.close($);
-        form.render();
-
-
-
-        //图片上传接口
-        /*layui.upload({
-          url: './upload.json' //上传接口
-          ,success: function(res){ //上传成功后的回调
-              console.log(res);
-            $('#LAY_demo_upload').attr('src',res.url);
-          }
-        });*/
-
+<!--导入Vue依赖包-->
+<script src="/js/vue.js" charset="utf-8"></script>
+<!-- 引入Element组件库 -->
+<script src="/js/index.js"></script>
+<!--导入Axios依赖包-->
+<script src="/js/axios.js" charset="utf-8"></script>
+<script type="text/javascript">
+    layui.use(['form'],function() {
+        $ = layui.jquery;
+        var form = layui.form(),
+            layer = layui.layer;
 
         //监听提交
-        form.on('submit(add)', function(data){
-            var veh_hphm=$("input[name='veh_hphm']").val();
-            var veh_color=$("input[name='veh_color']").val();
-            var image=$("input[name='image']").val();
-            var community_id=$('#community_id option:selected') .val();//所属栏目ID
-            var personnel_id=$('#personnel_id option:selected') .val();//所属栏目ID
+        form.on('submit(register)', function (data) {
+            var dataF = document.formData
+            console.log(dataF);
 
-            if(community_id==""){
-                layer.msg('所属小区不能为空',{icon:5,time:2000});return false;
+            var query = {
+                "customerId": dataF.customerId.value,
+                "voucher": dataF.voucher.value
             }
-            if(personnel_id==""){
-                layer.msg('所属成员不能为空',{icon:5,time:2000});return false;
-            }
-            if(veh_hphm==""){
-                layer.msg("车牌号码不能为空！",{icon:5,time:2000});return false;
-            }
-            if(veh_color==""){
-                layer.msg("号牌颜色不能为空！",{icon:5,time:2000});return false;
-            }
-            if(image==""){
-                layer.msg("车辆图片不能为空！",{icon:5,time:2000});return false;
-            }
-            var data=data.field;
+            // alert(query)
+            // 提交表单
             $.ajax({
-                type:"post",
-                url:"xxx",
-                data:data,
-                dataType:"json",
-                success:function(data){
-                    if(data.status==1){
-                        layer.msg(data.info, {icon: 6,time:2000},function () {
-                            window.parent.location.reload();
-                            var index = parent.layer.getFrameIndex(window.name);
-                            parent.layer.close(index);
-                        });
-                        return false;
-
-                    }else{
-                        layer.msg(data.info,{icon:5,time:2000});return false;
+                type: "POST",
+                dataType: "json",
+                contentType: 'application/json',//添加这句话
+                url: "/customer/reCharge",
+                data: JSON.stringify(query), //提交的数据
+                success: function (result) {
+                    console.log(result);       //打印服务端返回的数据(调试用)
+                    if (result.resultCode == 200) {
+                        alert("提交成功");
                     }
+                    ;
+                },
+                error: function () {
+                    alert("提交失败");
                 }
-
             });
+            // 注册成功
+            //location.href = "./index.html";
+            return false;
+        })
 
-        });
-
-        form.on('select(aihao)', function(data){
-            communidy();
-        });
-        $(function () {
-            communidy();
-        });
-        //communidy();
-        function communidy() {
-            var communidy = $("#community_id").val();
-            $.ajax({
-                url:"xxx",
-                type:"post",
-                dataType:"json",
-                data:{communidy:communidy},
-                success:function (data) {
-                    var dlen =data.length;
-                    var str='';
-                    if(dlen>0){
-                        for (var i=0;i<dlen;i++){
-                            var dt=data[i];
-                            str +='<option value="' + dt.id + '">';
-                            str +=dt.member_name;
-                            str +='</option>';
-                        }
-                    }else {
-                        str +='<option value="">----暂无数据----</option>';
-                    }
-
-                    $("#personnel_id").html(str);
-                    form.render('select', 'aihao');
-
+        $("#scan").click(function () {
+            layer.open({
+                type: 2,
+                title: 'Scan Voucher',
+                area: ['530px', '500px'],
+                content: ['/QRcode.html', 'no'],
+                btn: ['确定', '取消'],
+                yes: function (index, layero) {
+                    var body = layer.getChildFrame('body', index);  //此处我理解的是加载目标页面的内容
+                    $("#voucher").val(body.find('#tempValue').val());　　//查到目标页面的内容赋给当前页面元素
+                    // $("#voucher").val('11');
+                    //document.getElementById('name1').value='值';
+                    layer.close(index);//这块是点击确定关闭这个弹出层
                 }
-            })
-        }
-
-
+            });
+        });
     })
-</script>
-<!--栏目缩略图上传-->
-<script>
-    function upload(obj,id)
-    {
-        var formData = new FormData();
-        formData.append('images', $('#previewImg')[0].files[0]);
-        formData.append('id', id);//将id追加再id中
-        //console.log(formData);
-        layer.msg('图片上传中', {icon: 16});
-        $.ajax({
-            type:"post",
-            processData: false,
-            contentType: false,
-            url:"xxx",
-            data:formData,
-            success:function(data){
-                if(data.status == 1){
-                    layer.closeAll('loading');
-                    //layer.msg(data.info,{icon:1,time:1000});
-                    $("#pimages").attr('src',data.image_name);
-                    $("#avatar").val(data.image_name);
-                    $(".imgs").show();
-                    return false;
-                }else{
-                    layer.msg(data.info,{icon:2,time:1000});
-                }
-            }
-        });
-    }
+
+
 </script>
 
 </body>
+
 </html>

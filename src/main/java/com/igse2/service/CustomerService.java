@@ -15,4 +15,5 @@ public interface CustomerService {
 
     void insert(Customer customer);
 
+    Boolean reCharge(String voucher, String userEmail);
 }

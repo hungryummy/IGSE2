@@ -42,15 +42,16 @@
                         <h4>Top Up</h4>
                         <form name="formData">
                             <!--Scan Voucher-->
-                            <div class="form-group">
-                                <label>Please scan your voucher:</label>
-                                <button class="btn btn-primary btn-flat m-b-30 m-t-30  layui-btn" id="scan" name="scan">Scan</button>
-                                <input type="" id="voucher" name="voucher" class="form-control" readonly>
 
-                            </div>
                             <div class="form-group">
                                 <label>Email address</label>
                                 <input type="email" name="customerId" class="form-control" placeholder="Email">
+                            </div>
+                            <div class="form-group">
+                                <label>Please scan your voucher:</label>
+                                <button  type="button" class="btn btn-primary btn-flat m-b-30 m-t-30  layui-btn" id="scan" name="scan">Scan</button>
+                                <input type="" id="voucher" name="voucher" class="form-control" readonly>
+
                             </div>
 
                             <button type="submit" class="btn btn-primary btn-flat m-b-30 m-t-30  layui-btn" lay-submit lay-filter="register">Submit</button>
@@ -84,13 +85,7 @@
 
             var query = {
                 "customerId": dataF.customerId.value,
-                "passwordHash": dataF.passwordHash.value,
-                "address": dataF.address.value,
-                "propertyType": dataF.propertyType.value,
-                "bedroomNum": dataF.bedroomNum.value,
-                // "balance": dataF.balance.value,
-                "voucher": dataF.voucher.value,
-                "type": $('input:radio[name="type"]:checked').val()
+                "voucher": dataF.voucher.value
             }
             // alert(query)
             // 提交表单
@@ -98,7 +93,7 @@
                 type: "POST",
                 dataType: "json",
                 contentType: 'application/json',//添加这句话
-                url: "/user/signUp",
+                url: "/customer/reCharge",
                 data: JSON.stringify(query), //提交的数据
                 success: function (result) {
                     console.log(result);       //打印服务端返回的数据(调试用)
@@ -119,7 +114,7 @@
         $("#scan").click(function () {
             layer.open({
                 type: 2,
-                title: 'Scan Voucher    ',
+                title: 'Scan Voucher',
                 area: ['530px', '500px'],
                 content: ['/QRcode.html', 'no'],
                 btn: ['确定', '取消'],
