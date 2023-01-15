@@ -3,8 +3,10 @@ package com.igse2.service.impl;
 
 import com.igse2.entity.Customer;
 import com.igse2.entity.Igse;
+import com.igse2.entity.Rate;
 import com.igse2.entity.Reading;
 import com.igse2.mapper.IgseMapper;
+import com.igse2.mapper.RateMapper;
 import com.igse2.service.IgseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,6 +22,8 @@ import java.util.stream.Collectors;
 public class IgseServiceImpl implements IgseService {
 
     @Autowired IgseMapper igseMapper;
+    @Autowired
+    RateMapper rateMapper;
 
     @Override
     public List<Igse> findAll() {
@@ -57,8 +61,15 @@ public class IgseServiceImpl implements IgseService {
             }
 
         }
+        List<Rate> rates = rateMapper.selectAll();
+        //calculate the balance
+        Map<String, String> rate = rates.stream().collect(Collectors.toMap(Rate::getTaiffType, e -> e.getRate()));
         //Example: Bill = (200 -100) x 0.34 + (500-250) x 0.2 + (1600-800) x 0.1 + 0.74 x 30 days = £186.2 2
-        double result = (dayValue * 0.34 + nightValue * 0.2 + 0.74 * day) / day;
+        float eday = Float.parseFloat(rate.get("electricity_day"));
+        float enight = Float.parseFloat(rate.get("electricity_night"));
+        float egas = Float.parseFloat(rate.get("gas"));
+        float es = Float.parseFloat(rate.get("sanding_charge"));
+        double result = (dayValue * eday + nightValue * enight + gasValue * egas + es * day) / day;
         return result;
     }
 

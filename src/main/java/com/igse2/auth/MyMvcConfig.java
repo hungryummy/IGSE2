@@ -13,7 +13,7 @@ public class MyMvcConfig implements WebMvcConfigurer {
                         ,"/css/**","/lib/**","/js/**","/page-register.html"
                         ,"/user/signUp","/QRcode.html","/**.js","/igse/propertycount"
                         ,"/customer/add","/igse/{propertyType}/{roomNum}","/rate/update","/homeadd.html","/vehicle_add.html"
-                        ,"/favicon.ico","/error"
+                        ,"/favicon.ico","/error","/customer/payBill"
                 );
     }
 }

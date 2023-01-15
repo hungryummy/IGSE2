@@ -73,7 +73,7 @@ public class CustomerServiceImpl implements CustomerService {
             //has been used
             return false;
         }
-        // 优惠券修改为已用
+        // been used
         voucher1.setUsed(1);
         //2.update used
         voucherMapper.updateByPrimaryKeyDiy(voucher1);
@@ -89,9 +89,9 @@ public class CustomerServiceImpl implements CustomerService {
     public Result payBill(Reading reading) {
         //query rate
         List<Rate> rates = rateMapper.selectAll();
-        // ji suan jin e
+        //calculate the balance
         Map<String, String> collect = rates.stream().collect(Collectors.toMap(Rate::getTaiffType, e -> e.getRate()));
-        //suan
+        //calculate
         Integer elecReadingsDay = reading.getElecReadingsDay();
         Integer gasReading = reading.getGasReading();
         Integer eletReadingNight = reading.getEletReadingNight();
@@ -106,15 +106,15 @@ public class CustomerServiceImpl implements CustomerService {
         String balance = customer1.getBalance();
         float v1 = Float.parseFloat(balance);
         if (v1 < v){
-            //buzu
-            return new Result();
+            //not enough
+            return new Result(false,400,"not enough money");
         }
         float v2 = v1 - v;
         String s = String.valueOf(v2);
         customer1.setBalance(s);
         int i = customerMapper.updateByPrimaryKey(customer1);
-        // chenggong
-        return new Result();
+        // suc
+        return new Result(true,200,"pay successfully");
     }
 
 }
